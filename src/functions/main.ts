@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import serverlessExpress from '@vendia/serverless-express';
 import { AppModule } from '../app.module';
-import { Callback, Context, Handler } from "netlify-lambda";
+import { Handler, HandlerContext, HandlerCallback } from "@netlify/functions";
 
 let server: Handler;
 
@@ -15,8 +15,8 @@ async function bootstrap(): Promise<Handler> {
 
 export const handler: Handler = async (
   event: any,
-  context: Context,
-  callback: Callback,
+  context: HandlerContext,
+  callback: HandlerCallback,
 ) => {
   server = server ?? (await bootstrap());
   return server(event, context, callback);
